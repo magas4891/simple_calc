@@ -1,0 +1,19 @@
+<main class="container" role="main">
+  <div class="main-section m-auto">
+    <%= form_for Calculation.new, id: 'new-calculation', remote: true do |form| %>
+      <div class="data-fields d-flex justify-content-around m-5">
+        <%= form.text_field :field_a %>
+        <%= form.text_field :field_b %>
+      </div>
+      <div class="operation-btns d-flex justify-content-around m-5">
+        <%= button_tag('Sum', class: 'btn btn-primary', data: { operation: 'sum' }) %>
+        <%= button_tag('Sub', class: 'btn btn-primary', data: { operation: 'sub' }) %>
+        <%= button_tag('Mul', class: 'btn btn-primary', data: { operation: 'mul' }) %>
+        <%= button_tag('Div', class: 'btn btn-primary', data: { operation: 'div' }) %>
+      </div>
+      <div class="result-area d-flex justify-content-center">
+        <%= form.text_area :result, size: "30x5" %>
+      </div>
+  <% end %>
+  </div>
+</main>
