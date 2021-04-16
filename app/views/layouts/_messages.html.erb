@@ -1,0 +1,20 @@
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div id="flash">
+        </div>
+        <% flash.each do |key, value| %>
+          <div class="alert alert-<%= key %> alert-dismissible fade show">
+            <button type="button"  class="close" data-dismiss="alert" >&times;</button>
+            <ul>
+              <li>
+                <%= value %>
+              </li>
+            </ul>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>

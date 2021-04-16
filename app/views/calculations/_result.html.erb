@@ -1,4 +1,4 @@
-<%= @calculation.field_a %> <%= Calculation::OPERATIONS[@calculation.operation.to_sym] %> <%= @calculation.field_b %>
-<%= @calculation.result %>
-<%= @calculation.id %>
-<%= @prev_calc.result %>
+Current operation: <%= @calculation.field_a %> <%= Calculation::OPERATIONS[@calculation.operation.to_sym] %> <%= @calculation.field_b %>
+Current result: <%= @calculation.result %>
+Id of current operation: <%= @calculation.id %>
+Previous result: <%= @prev_calc.result %>

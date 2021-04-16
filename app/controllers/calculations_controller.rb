@@ -5,7 +5,14 @@ class CalculationsController < ApplicationController
   def create
     @calculation = Calculation.new(calc_params)
     @calculation[:result] = result(operation, first_num, second_num)
-    @calculation.save!
+
+    respond_to do |format|
+      if @calculation.save
+        format.js
+      else
+        format.js { flash.now[:error] = @calculation.errors.full_messages[0] }
+      end
+    end
   end
 
   private

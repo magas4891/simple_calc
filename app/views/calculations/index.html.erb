@@ -1,5 +1,12 @@
 <main class="container" role="main">
   <div class="main-section m-auto">
+    <%= render 'layouts/messages' %>
+    <div class="toast" data-delay="3000">
+      <div class="toast-header">
+        Input error
+      </div>
+      <div class="toast-body"></div>
+    </div>
     <%= form_for Calculation.new, id: 'new-calculation', remote: true do |form| %>
       <div class="data-fields d-flex justify-content-around m-5">
         <%= form.text_field :field_a %>
@@ -12,8 +19,8 @@
         <%= button_tag('Div', class: 'btn btn-primary', data: { operation: 'div' }) %>
       </div>
       <div class="result-area d-flex justify-content-center">
-        <%= form.text_area :result, size: "30x5" %>
+        <%= form.text_area :result, size: "40x7", disabled: true %>
       </div>
-  <% end %>
+    <% end %>
   </div>
 </main>

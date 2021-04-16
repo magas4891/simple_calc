@@ -1,9 +1,12 @@
 class Calculation
   include Mongoid::Document
+
   field :field_a, type: String
   field :field_b, type: String
   field :operation, type: String
   field :result, type: String
+
+  validates_presence_of :field_a, :field_b
 
   OPERATIONS = {
     sum: '+',
@@ -25,6 +28,10 @@ class Calculation
   end
 
   def self.div(a, b)
-    a.to_i / b.to_i
+    begin
+      a.to_i / b.to_i
+    rescue ZeroDivisionError => error
+      error.message
+    end
   end
 end
