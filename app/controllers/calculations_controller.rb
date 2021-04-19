@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CalculationsController < ApplicationController
   before_action :set_last_calc, only: :create
   def index; end
@@ -38,6 +40,6 @@ class CalculationsController < ApplicationController
   end
 
   def result(operation, first_num, second_num)
-    Calculation.send(operation, *[first_num, second_num])
+    Calculation.send(operation, first_num, second_num)
   end
 end

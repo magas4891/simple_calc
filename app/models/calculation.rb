@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Calculation
   include Mongoid::Document
 
@@ -15,23 +17,21 @@ class Calculation
     div: '/'
   }.freeze
 
-  def self.sum(a, b)
-    a.to_i + b.to_i
+  def self.sum(val_a, val_b)
+    val_a.to_i + val_b.to_i
   end
 
-  def self.sub(a, b)
-    a.to_i - b.to_i
+  def self.sub(val_a, val_b)
+    val_a.to_i - val_b.to_i
   end
 
-  def self.mul(a, b)
-    a.to_i * b.to_i
+  def self.mul(val_a, val_b)
+    val_a.to_i * val_b.to_i
   end
 
-  def self.div(a, b)
-    begin
-      a.to_i / b.to_i
-    rescue ZeroDivisionError => error
-      error.message
-    end
+  def self.div(val_a, val_b)
+    val_a.to_i / val_b.to_i
+  rescue ZeroDivisionError => e
+    e.message
   end
 end
