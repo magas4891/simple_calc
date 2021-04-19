@@ -1,38 +1,37 @@
 # frozen_string_literal: true
 
 class CalculationsController < ApplicationController
-  before_action :set_last_calc, only: :create
+  before_action :find_calculation, only: :create
+
   def index; end
 
   def create
-    @calculation = Calculation.new(calc_params)
-    @calculation[:result] = result(operation, first_num, second_num)
-
-    respond_to do |format|
-      if @calculation.save
-        format.js
-      else
-        format.js { flash.now[:error] = @calculation.errors.full_messages[0] }
-      end
+    if @calculation
+      # TODO:
+      calc[:result] = @calculation
+    elsif first_num && second_num && operation
+      result = result(operation, first_num, second_num)
+      @calculation = Calculation.create(result: result,
+                                        field_a: first_num,
+                                        field_b: second_num,
+                                        operation: operation)
+    else
+      respond_to { |format| format.js { flash.now[:error] = 'Fill in all inputs!' } }
     end
   end
 
   private
 
   def first_num
-    params[:calculation][:field_a]
+    params[:calculation][:field_a].presence&.to_i
   end
 
   def second_num
-    params[:calculation][:field_b]
+    params[:calculation][:field_b].presence&.to_i
   end
 
   def operation
-    params[:calculation][:operation]
-  end
-
-  def set_last_calc
-    @prev_calc = Calculation.last
+    params[:calculation][:operation].presence&.to_sym
   end
 
   def calc_params
@@ -40,6 +39,11 @@ class CalculationsController < ApplicationController
   end
 
   def result(operation, first_num, second_num)
-    Calculation.send(operation, first_num, second_num)
+    # find already created same operating => increment
+    first_num.public_send(operation, second_num)
+  end
+
+  def find_calculation
+    # @calculation
   end
 end

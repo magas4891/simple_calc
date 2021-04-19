@@ -1,6 +1,6 @@
 <main class="container" role="main">
   <div class="main-section m-auto">
-    <%= render 'layouts/messages' %>
+    <div id="flash"></div>
     <div class="toast" data-delay="3000">
       <div class="toast-header">
         Input error
@@ -13,10 +13,9 @@
         <%= form.text_field :field_b %>
       </div>
       <div class="operation-btns d-flex justify-content-around m-5">
-        <%= button_tag('Sum', class: 'btn btn-primary', data: { operation: 'sum' }) %>
-        <%= button_tag('Sub', class: 'btn btn-primary', data: { operation: 'sub' }) %>
-        <%= button_tag('Mul', class: 'btn btn-primary', data: { operation: 'mul' }) %>
-        <%= button_tag('Div', class: 'btn btn-primary', data: { operation: 'div' }) %>
+        <% Calculation::OPERATIONS.each do |operation| %>
+          <%= submit_tag operation, name: 'calculation[operation]', class: 'btn btn-primary' %>
+        <% end %>
       </div>
       <div class="result-area d-flex justify-content-center">
         <%= form.text_area :result, size: "40x7", disabled: true %>
