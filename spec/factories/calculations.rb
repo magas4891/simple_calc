@@ -2,8 +2,8 @@
 
 FactoryBot.define do
   factory :calculation do
-    field_a { '10' }
-    field_b { '5' }
-    operation { 'sum' }
+    field_a { 10 }
+    field_b { 5 }
+    operation { '+' }
   end
 end

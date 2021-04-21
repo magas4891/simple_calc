@@ -8,41 +8,18 @@ RSpec.describe Calculation, type: :model do
     it { is_expected.to be_stored_in(collection: 'calculations') }
   end
 
+  describe 'fields' do
+    it { is_expected.to have_field(:field_a).of_type(Integer) }
+    it { is_expected.to have_field(:field_b).of_type(Integer) }
+    it { is_expected.to have_field(:operation).of_type(String) }
+    it { is_expected.to have_field(:result).of_type(Integer) }
+    it { is_expected.to have_field(:count).of_type(Integer).with_default_value_of(0) }
+  end
+
   describe 'validation' do
     it { is_expected.to validate_presence_of(:field_a) }
     it { is_expected.to validate_presence_of(:field_b) }
-  end
-
-  describe 'field presence' do
-    it { is_expected.to have_fields(:field_a, :field_b, :operation, :result).of_type(String) }
-  end
-
-  describe '#sum' do
-    it 'returns exact value' do
-      calc = described_class.sum('6', '2')
-      expect(calc).to eq(8)
-    end
-  end
-
-  describe '#sub' do
-    it 'returns exact value' do
-      calc = described_class.sub('6', '2')
-      expect(calc).to eq(4)
-    end
-  end
-
-  describe '#mul' do
-    it 'returns exact value' do
-      calc = described_class.mul('6', '2')
-      expect(calc).to eq(12)
-    end
-  end
-
-  describe '#div' do
-    it 'returns exact value' do
-      calc = described_class.div('6', '2')
-      expect(calc).to eq(3)
-    end
+    it { expect(described_class::OPERATIONS).to contain_exactly(*%i[+ - / *]) }
   end
 
   describe 'db model' do

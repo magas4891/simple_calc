@@ -1,5 +1,5 @@
-<% if @calculation.errors.any? %>
+<% if flash.any? %>
   $("#flash").html('<%= j render partial: "layouts/messages" %>');
 <% else %>
-  $('textarea#calculation_result').html("<%= escape_javascript render(partial: 'result', locals: { calculation: @calculation, prev_calc: @prev_calc }) %>");
+  $('textarea#calculation_result').html("<%= escape_javascript render(partial: 'result', locals: { calculation: @calculation }) %>");
 <% end %>

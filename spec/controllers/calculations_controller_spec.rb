@@ -18,22 +18,48 @@ RSpec.describe CalculationsController, type: :controller do
   end
 
   describe 'POST #create' do
-    it 'increases Calculation.count by 1' do
-      expect { send_request }.to change { Calculation.count }.from(0).to(1)
+    context 'when calculation is new' do
+      it 'increases Calculation.count by 1' do
+        expect { send_request }.to change { Calculation.count }.from(0).to(1)
+      end
+
+      context 'after sending request' do
+        before { send_request }
+
+        it 'has result equal to 15 and count equal to 1' do
+          calc = assigns(:calculation)
+          expect(calc.result).to eq(15)
+          expect(calc.count).to eq(1)
+        end
+        it 'returns successful response' do
+          expect(response).to be_successful
+        end
+        it 'renders create template' do
+          expect(response).to render_template('create')
+        end
+      end
     end
 
-    context 'after sending request' do
-      before { send_request }
+    context 'when calculation exists' do
+      let!(:calculation) { create(:calculation) }
 
-      it 'has assigned value' do
-        prev_calc = assigns(:prev_calc)
-        expect(prev_calc[:result]).to eq('15')
+      it 'increases Calculation.count by 1' do
+        expect { send_request }.not_to change { Calculation.count }
       end
-      it 'returns successful response' do
-        expect(response).to be_successful
-      end
-      it 'renders create template' do
-        expect(response).to render_template('create')
+
+      context 'after sending request' do
+        before { send_request }
+
+        it 'returns exists record' do
+          calc = assigns(:calculation)
+          expect(calc.id).to eq(calculation.id)
+        end
+        it 'returns successful response' do
+          expect(response).to be_successful
+        end
+        it 'renders create template' do
+          expect(response).to render_template('create')
+        end
       end
     end
 
@@ -41,7 +67,7 @@ RSpec.describe CalculationsController, type: :controller do
       before { send_invalid_request }
 
       it 'has flash error message' do
-        expect(flash['error']).to eq("Field b can't be blank")
+        expect(flash['error']).to eq('Fill in all inputs!')
       end
     end
   end
